@@ -4,6 +4,12 @@
 #include <algorithm>
 #include <queue>
 #include <cmath>
+#include <cassert>
+
+const bool DEBUG = 1;
+const bool LOG = 0;
+#define ASSERT(x) if (DEBUG) assert(x)
+#define debug_printf(fmt, ...) do { if (DEBUG) fprintf(stderr, fmt, __VA_ARGS__); } while (0)
 
 using namespace std;
 
@@ -19,7 +25,7 @@ int n;  // tot node number
 int in_deg[NODE_NUM_MAX];
 double value[NODE_NUM_MAX];
 int np; // tot package number
-int pkg[PKG_NUM_MAX];
+vector<int> seq;
 vector<vector<int>> rst;
 
 int read_graph(char* edge_path, char* weight_path)
@@ -50,6 +56,7 @@ int read_graph(char* edge_path, char* weight_path)
     while (fscanf(f_edge, "%d %d", &x, &y)) {
         if (x == 0 && y == 0)
             break;
+        ASSERT(weight[x] != -1 && weight[y] != -1);    
         edges[x].push_back(y);
         n = max(n, x);
     }
@@ -65,9 +72,13 @@ int read_graph(char* edge_path, char* weight_path)
         for (int y : edges[x])
             in_deg[y] += 1;
     // 0号节点连向所有入度为0的节点
+    ASSERT(edges[0].empty());
     for (int x = 1; x <= n; ++x)
         if (in_deg[x] == 0)
             edges[0].push_back(x);
+
+    debug_printf("TW = %d\n", TW);
+    
     return 0;
 }
 
@@ -87,16 +98,17 @@ void make_package()
         int index;
         double value;
         bool operator< (const Node& n) const {
-            return value > n.value;
+            return value < n.value;
         }
     };
-    priority_queue<Node> pq;
+    priority_queue<Node> pq;  // 大顶堆
     pq.push({0,0});
-    vector<int> seq;
 
     /* Stage 1: decide which node to be packaged */
     while (!pq.empty()) {
-        int cur = pq.top().index; pq.pop();
+        int cur = pq.top().index;
+        // printf("pq: cur = %d, weight = %d, v = %.2f\n", cur, weight[cur], pq.top().value * 1000);
+        pq.pop();
         if ((tw + weight[cur]) * 2 > TW * 3)
             break;
         if (cur != 0) {
@@ -106,7 +118,9 @@ void make_package()
         
         /* add new nodes to pq */
         for (int nxt : edges[cur]) {
-            double v = value[nxt] * pow(loss_prob, cnt[nxt]);
+            double v = value[nxt];
+            // double v = value[nxt] * pow(loss_prob, cnt[nxt]);
+            // printf("nxt = %d, weight = %d, v = %.2f, in_deg = %d\n", nxt, weight[nxt], v * 1000, in_deg[nxt]);
             pq.push({nxt, v});
             ++cnt[nxt];
         }
@@ -131,6 +145,8 @@ void make_package()
             acc_weight += weight[x];
     }
     rst.push_back(vector<int>(seq.begin() + last_i, seq.end()));
+
+    debug_printf("tw = %d\n", tw);
 }
 
 int output(char* answer_path)
@@ -153,6 +169,9 @@ int output(char* answer_path)
 
 int main()
 {
+    if (LOG) {
+        freopen("log.txt", "w", stdout);
+    }
     char weight_path[] = "data/Out_SliceSize_Basketball_480_Slice16_Gop8_10.log";
     char edge_path[] = "data/Out_OutGraph_Basketball_480_Slice16_Gop8_10.log";
     char answer_path[] = "result.txt";
