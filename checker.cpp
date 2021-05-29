@@ -250,7 +250,7 @@ int main(int argc, char **argv)
         }
         if (totw[i] > MAXW)
         {
-            printf("packet %d too big", i);
+            printf("packet %d too big (count from 0)\n", i);
             return 0;
         }
         for (unsigned int j = 0; j < totw[i]; j++)
@@ -258,7 +258,7 @@ int main(int argc, char **argv)
         Tw += totw[i];
         if (tw * 3 < Tw * 2)
         {
-            printf("total packet weights too big");
+            printf("total packet weights too big\n");
             return 0;
         }
     }
