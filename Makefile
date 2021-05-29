@@ -3,8 +3,14 @@ FLAGS = -std=c++11 -Wall # -Wshadow
 
 all : try_basic checker
 
-% : %.cpp
-	$(CC) $< -o $@ $(FLAGS)
+%.o : %.cpp
+	$(CC) -c $< $(FLAGS)
+
+try_basic : try_basic.o graphio.o 
+	$(CC) $^ -o $@ $(FLAGS)
+
+checker : checker.o 
+	$(CC) $^ -o $@ $(FLAGS)
 
 test:
 	./try_basic
