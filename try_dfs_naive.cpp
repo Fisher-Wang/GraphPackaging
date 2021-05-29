@@ -75,14 +75,23 @@ void make_package()
     rst = vector<vector<int>>(pkgs+1, pkgs+np+1);
 }
 
-int main()
+int main(int argc, char* argv[])
 {
     if (LOG) {
         freopen("log.txt", "w", stdout);
     }
-    char weight_path[] = "data/Out_SliceSize_Basketball_480_Slice16_Gop8_10.log";
-    char edge_path[] = "data/Out_OutGraph_Basketball_480_Slice16_Gop8_10.log";
-    char answer_path[] = "result.txt";
+    char *edge_path, *weight_path, *answer_path;
+    if (argc == 4) {
+        edge_path = argv[1];
+        weight_path = argv[2];
+        answer_path = argv[3];
+    }
+    else {
+        edge_path = (char *)"data/Out_OutGraph_Basketball_480_Slice16_Gop8_10.log";
+        weight_path = (char *)"data/Out_SliceSize_Basketball_480_Slice16_Gop8_10.log";
+        answer_path = (char *)"result.txt";
+    }
+
     read_graph(edge_path, weight_path); debug_printf("TW = %d\n", TW);
     evaluate_nodes();
     make_package();
