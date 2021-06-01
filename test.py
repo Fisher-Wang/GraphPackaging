@@ -16,8 +16,9 @@ for exe_path in exe_paths:
     print('Testing {}'.format(exe_path))
     for i in range(4):
         print('Case {}'.format(i))
-        result = subprocess.run([exe_path, edge_paths[i], weight_paths[i], result_path], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, encoding='utf-8')
+        result = subprocess.run([exe_path, edge_paths[i], weight_paths[i], result_path], 
+                                stdout=subprocess.PIPE, stderr=subprocess.STDOUT, encoding='utf-8')
         print(result.stdout)
-        result = subprocess.run([checker_path, edge_paths[i], weight_paths[i], result_path], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, encoding='utf-8')
+        result = subprocess.run([checker_path, edge_paths[i], weight_paths[i], result_path], 
+                                stdout=subprocess.PIPE, stderr=subprocess.STDOUT, encoding='utf-8')
         print(result.stdout)
-        
