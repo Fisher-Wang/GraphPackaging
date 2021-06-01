@@ -191,6 +191,8 @@ int main(int argc, char **argv)
     if (argc != 4)
     {
         puts("invaild input");
+        for (int i = 0; i < argc; ++i)
+            printf("argv[%d] = %s\n", i, argv[i]);
         return 0;
     }
     // srand(time(0));
