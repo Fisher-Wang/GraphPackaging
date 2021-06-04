@@ -2,7 +2,7 @@
 #include <vector>
 using namespace std;
 
-const bool DEBUG = 1;
+const bool DEBUG = 0;
 const bool LOG = 0;
 #define ASSERT(x) if (DEBUG) assert(x)
 #define debug_printf(...) do { if (DEBUG) fprintf(stderr,  __VA_ARGS__); } while (0)

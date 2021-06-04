@@ -1,6 +1,6 @@
 CC = g++
 FLAGS = -std=c++11 -Wall # -Wshadow
-EXES = try_basic checker try_dfs_naive try_dfs2
+EXES = try_basic checker try_dfs_naive try_dfs2 try_dfs3
 
 all : $(EXES)
 
@@ -17,6 +17,9 @@ try_basic : try_basic.o graphio.o
 	$(CC) $^ -o $@ $(FLAGS)
 
 try_dfs2 : try_dfs2.o graphio.o
+	$(CC) $^ -o $@ $(FLAGS)
+
+try_dfs3 : try_dfs3.o graphio.o
 	$(CC) $^ -o $@ $(FLAGS)
 
 

@@ -7,7 +7,7 @@
 #include "graph.h"
 using namespace std;
 
-const double loss_prob = 0.2;
+double loss_prob = 0.2;
 
 vector<int> edges[NODE_NUM_MAX];
 int weight[NODE_NUM_MAX];
@@ -65,15 +65,17 @@ int main(int argc, char* argv[])
         freopen("log.txt", "w", stdout);
     }
     char *edge_path, *weight_path, *answer_path;
-    if (argc == 4) {
+    if (argc == 5) {
         edge_path = argv[1];
         weight_path = argv[2];
         answer_path = argv[3];
+        loss_prob = atoi(argv[4]) / 100.;
     }
     else {
         edge_path = (char *)"data/Out_OutGraph_Basketball_480_Slice16_Gop8_10.log";
         weight_path = (char *)"data/Out_SliceSize_Basketball_480_Slice16_Gop8_10.log";
         answer_path = (char *)"result.txt";
+        loss_prob = 0.2;
     }
 
     read_graph(edge_path, weight_path); debug_printf("TW = %d\n", TW);
