@@ -8,8 +8,8 @@ weight_paths = ["data/" + "Out_SliceSize_Basketball_480_Slice16_Gop" + i + ".log
 
 exe_paths = [
     # 'try_basic',
-    # 'try_dfs_naive',
-    'try_dfs2',
+    'try_dfs_naive',
+    # 'try_dfs2',
 ]
 checker_path = 'checker'
 
