@@ -7,7 +7,7 @@ edge_paths = ["data/" + "Out_OutGraph_Basketball_480_Slice16_Gop" + i + ".log" f
 weight_paths = ["data/" + "Out_SliceSize_Basketball_480_Slice16_Gop" + i + ".log" for i in ids]
 
 exe_paths = [
-    # 'try_basic',
+    'try_basic',
     'try_dfs_naive',
 ]
 checker_path = 'checker'
