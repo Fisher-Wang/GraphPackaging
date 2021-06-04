@@ -6,8 +6,10 @@
 #include <algorithm>
 using namespace std;
 
+int losspro = 0;
+
 #define SEED 0
-#define LOOSEPRO 20
+#define LOOSEPRO losspro
 #define LOOSEN 4
 #define MAXW 1572
 
@@ -188,14 +190,14 @@ void test2()
 
 int main(int argc, char **argv)
 {
-    if (argc != 4)
+    if (argc != 5)
     {
         puts("invaild input");
         for (int i = 0; i < argc; ++i)
             printf("argv[%d] = %s\n", i, argv[i]);
         return 0;
     }
-    // srand(time(0));
+    srand(time(0));
     srand(SEED);
     FILE *edges, *weights, *answer;
     if ((edges = fopen(argv[1], "r")) == NULL)
@@ -213,6 +215,7 @@ int main(int argc, char **argv)
         puts("invaild file 3");
         return 0;
     }
+    losspro = atoi(argv[4]);
     int x, y;
     n = 0;
     while (fscanf(weights, "%d %d", &x, &y) != EOF)
@@ -266,4 +269,5 @@ int main(int argc, char **argv)
     }
     test1();
     test2();
+    printf("Tw = %d\n", Tw);
 }
