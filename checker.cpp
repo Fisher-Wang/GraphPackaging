@@ -197,7 +197,7 @@ int main(int argc, char **argv)
             printf("argv[%d] = %s\n", i, argv[i]);
         return 0;
     }
-    // srand(time(0));
+    srand(time(0));
     srand(SEED);
     FILE *edges, *weights, *answer;
     if ((edges = fopen(argv[1], "r")) == NULL)
@@ -269,4 +269,5 @@ int main(int argc, char **argv)
     }
     test1();
     test2();
+    printf("Tw = %d\n", Tw);
 }
