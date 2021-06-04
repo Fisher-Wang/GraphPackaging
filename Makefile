@@ -1,7 +1,7 @@
 CC = g++
 FLAGS = -std=c++11 -Wall # -Wshadow
 
-all : try_basic checker try_dfs_naive
+all : try_basic checker try_dfs_naive try_dfs2
 
 %.o : %.cpp
 	$(CC) -c $< $(FLAGS)
@@ -15,7 +15,9 @@ try_dfs_naive : try_dfs_naive.o graphio.o
 try_basic : try_basic.o graphio.o 
 	$(CC) $^ -o $@ $(FLAGS)
 
+try_dfs2 : try_dfs2.o graphio.o
+	$(CC) $^ -o $@ $(FLAGS)
 
-test: try_dfs_naive
-	./try_dfs_naive
-	./checker data/Out_OutGraph_Basketball_480_Slice16_Gop8_10.log data/Out_SliceSize_Basketball_480_Slice16_Gop8_10.log result.txt
+
+test:
+	python test.py
