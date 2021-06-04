@@ -15,9 +15,9 @@ int TW;
 int n;  // tot node number
 int in_deg[NODE_NUM_MAX];
 double value[NODE_NUM_MAX];
-vector<int> seq;
-int np;  // tot package number
+int np = 1;  // tot package number
 vector<int> pkgs[PKG_NUM_MAX];
+int rcd_pkg[NODE_NUM_MAX];
 vector<vector<int>> rst;
 
 void evaluate_nodes()
@@ -25,53 +25,38 @@ void evaluate_nodes()
 }
 
 static bool vis[NODE_NUM_MAX];
+static int tw = 0;
+static int cur_weight_sum = 0;
+static int extra_np = 0;
 static void dfs(int cur)
 {
-    log_printf("calling dfs(%d)\n", cur);
+    log_printf("calling dfs(%d), cur_weight_sum = %d\n", cur, cur_weight_sum);
     for (int nxt : edges[cur])
         if (!vis[nxt]) {
             vis[nxt] = 1;
-            seq.push_back(nxt);
+            
+            if (cur_weight_sum + weight[nxt] <= PKG_SIZE) {
+                log_printf("case1, cur_weight_sum = %d, weight[%d] = %d\n", cur_weight_sum, nxt, weight[nxt]);
+                cur_weight_sum += weight[nxt];
+                pkgs[np].push_back(nxt);
+            }
+            else {
+                cur_weight_sum = weight[nxt];
+                pkgs[++np].push_back(nxt);
+            }
+            tw += weight[nxt];
+            if (tw <= TW/2)
+                extra_np = max(extra_np, np);
+
             dfs(nxt);
         }
 }
 
 void make_package()
 {
-    /* Stage 1: DFS */
-    memset(vis, 0, sizeof(vis));
     dfs(0);
-    debug_printf("stage 1 complete\n");
-
-    /* Stage 2: grouping */
-    int last_i = 0;
-    int acc_weight = 0;
-    auto bak_seq = vector<int>(seq.begin(), seq.end());
-    seq.insert(seq.end(), bak_seq.begin(), bak_seq.end());
-    int tw = 0;
-    int i = 0;
-    for (i = 0; i < (int)seq.size(); ++i)
-    {
-        int x = seq[i];
-        if (weight[x] > PKG_SIZE) {
-            fprintf(stderr, "[Warning] node %d has too large weight %d\n", x, weight[x]);
-            continue;
-        }
-        if ((tw + weight[x]) * 2 > TW * 3)
-            break;
-        else {
-            tw += weight[x];
-            if (acc_weight + weight[x] > PKG_SIZE) {
-                pkgs[++np] = vector<int>(seq.begin() + last_i, seq.begin() + i);
-                last_i = i;
-                acc_weight = weight[x];
-            }
-            else 
-                acc_weight += weight[x];
-        }
-    }
-    pkgs[++np] = vector<int>(seq.begin() + last_i, seq.begin() + i);
     rst = vector<vector<int>>(pkgs+1, pkgs+np+1);
+    rst.insert(rst.end(), pkgs+1, pkgs+extra_np+1);
 }
 
 int main(int argc, char* argv[])
@@ -94,6 +79,7 @@ int main(int argc, char* argv[])
     read_graph(edge_path, weight_path); debug_printf("TW = %d\n", TW);
     evaluate_nodes();
     make_package();
+    printf("np = %d, rst.size() = %u\n", np, rst.size());
     output(answer_path);
     return 0;
 }
