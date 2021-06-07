@@ -41,9 +41,9 @@ void evaluate_nodes()
         for (Node& node : *q) {
             int cur = node.index;
             for (int nxt : edges[cur]) {
-                if (weight[nxt] == -1) {
+                if (acc_w[nxt] == -1) {
                     acc_w[nxt] = weight[nxt] + acc_w[cur];
-                    q->push_back({nxt});
+                    q2->push_back({nxt});
                 }
                 else if (weight[nxt] + acc_w[cur] < acc_w[nxt]) {
                     acc_w[nxt] = weight[nxt] + acc_w[cur];

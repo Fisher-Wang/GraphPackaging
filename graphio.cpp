@@ -12,7 +12,6 @@ extern int n;  // tot node number
 extern int in_deg[NODE_NUM_MAX];
 extern vector<vector<int>> rst;
 
-
 int read_graph(char* edge_path, char* weight_path)
 {
     memset(weight, 255, sizeof(weight));
