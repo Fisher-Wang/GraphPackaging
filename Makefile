@@ -1,6 +1,6 @@
 CC = g++
 FLAGS = -std=c++11 -Wall # -Wshadow
-EXES = try_basic checker try_dfs_naive try_dfs2 try_dfs3 try_eval try_eval_p1 try_dfs_post try_dfs2_eval try_dfs2_backup random-algo checker_for_times
+EXES = try_basic checker try_dfs_naive try_dfs2 try_dfs3 try_eval try_eval_p1 try_dfs_post try_dfs2_eval try_dfs2_backup random-algo checker_for_times try_dfs+bound try_dfs+bound2
 
 all : $(EXES)
 
@@ -48,6 +48,13 @@ random-algo : random-algo.o
 
 checker_for_times : checker_for_times.o
 	$(CC) $^ -o $@ $(FLAGS)
+
+try_dfs+bound : try_dfs+bound.cpp graphio.o
+	$(CC) $^ -o $@ $(FLAGS)
+
+try_dfs+bound2 : try_dfs+bound2.cpp graphio.o
+	$(CC) $^ -o $@ $(FLAGS)
+
 
 
 
