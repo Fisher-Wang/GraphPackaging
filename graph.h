@@ -3,7 +3,7 @@
 using namespace std;
 
 const bool DEBUG = 1;
-const bool LOG = 1;
+const bool LOG = 0;
 #define ASSERT(x) if (DEBUG) assert(x)
 #define debug_printf(...) do { if (DEBUG) fprintf(stderr,  __VA_ARGS__); } while (0)
 #define log_printf(...) do { if (LOG) printf(__VA_ARGS__); } while (0)
